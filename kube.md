@@ -13,6 +13,15 @@ kubectl create secret generic greetingdb-credentials --from-literal=db-username=
 eval $(minikube -p minikube docker-env)
 ./mvnw clean package -Dquarkus.kubernetes.deploy=true -DskipTests=true 
 ```
+
+* Scale down
+```shell
+export DEMO=$(minikube service --url demo)
+http $DEMO/q/health 
+kubectl scale --replicas=0 deployment/postgres
+kubectl get pods
+```
+
 * cleanup
 ```shell
 kubectl delete service postgres    
